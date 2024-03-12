@@ -115,6 +115,30 @@ app.get('/api/get_recordsbyid/:_id', async (req, res) => {
   }
 });
 
+// Delete customer Record 
+
+
+app.delete('/api/del_customers_record/:_id', async (req, res) => {
+  try {
+    console.log(req.params._id)
+    const customer = await CustomerRecords.findByIdAndDelete(req.params._id);
+    console.log(customer, "find customer");
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+    res.json({ message: "Customer deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+
+
+
+
+
 
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
