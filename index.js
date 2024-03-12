@@ -42,6 +42,7 @@ app.get('/api/customers', async (req, res) => {
 app.delete('/api/del_customers/:id', async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id);
+    console.log(customer , "find customer" )
     if (!customer) {
       return res.status(404).json({ message: "Customer not found" });
     }
