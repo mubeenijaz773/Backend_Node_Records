@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const CustomerRecords = require("./models/customer_records");
 const Customer = require('./models/customer');
 const connectDB = require('./connection/db');
+require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
