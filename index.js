@@ -6,7 +6,6 @@ const connectDB = require('./connection/db');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB();
@@ -100,6 +99,7 @@ app.get('/api/get_recordsbyid/:_id', async (req, res) => {
 
 
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
-// Start server
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(5000, () => console.log("Server ready on port 5000."));
+module.exports = app;
