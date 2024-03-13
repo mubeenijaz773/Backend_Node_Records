@@ -90,18 +90,33 @@ app.post('/api/customer-records', async (req, res) => {
 });
 
 
+const PAGE_SIZE = 10; // Number of records per page
+
 app.get('/api/get_recordsbyid/:_id', async (req, res) => {
   try {
     const _id = req.params._id;
-    console.log("get _id" , _id , "hit get records")
+
+    // Extract pagination parameters from query string
+    const page = parseInt(req.query.page); // Default to page 1 if not specified
+    const pageSize = parseInt(req.query.pageSize); // Default page size
+console.log(pageSize  , page , "size")
+    // Calculate skip value to skip records based on pagination
+    const skip = (page - 1) * pageSize;
+
     // Use try-catch block to handle potential errors
     try {
-      // Find customer records by _id and populate the 'Customer' field
-      const customers = await CustomerRecords.find({ 'Customer': _id }).populate('Customer').lean();
+      // Find customer records by _id, populate the 'Customer' field, and apply pagination
+      const customers = await CustomerRecords.find({ 'Customer': _id })
+        .populate('Customer')
+        .skip(skip)
+        .limit(pageSize)
+        .lean();
+
       // Check if any records are found
       if (customers.length === 0) {
         return res.status(404).json({ message: 'No records found for the given customer ID' });
       }
+
       // If records are found, send them in the response
       res.json(customers);
     } catch (error) {
